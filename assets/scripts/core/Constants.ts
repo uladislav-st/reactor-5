@@ -1,0 +1,7 @@
+﻿export const PlayerConstants = {
+  MOVE_SPEED: 250,
+  ARRIVAL_THRESHOLD: 8,
+  INTERACTION_COMPLETE_DURATION: 0.6,
+  TAP_HIT_RADIUS: 60,
+  KEYBOARD_MOVE_SPEED: 300,
+} as const;
