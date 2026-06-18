@@ -1,9 +1,13 @@
 {
   "ver": "1.1.50",
   "importer": "prefab",
-  "imported": false,
-  "uuid": "108205d3-e431-44e2-8e9d-7a6fdf5e71c0",
-  "files": [],
+  "imported": true,
+  "uuid": "adfdc594-13f8-4402-8624-1683c5fbb53a",
+  "files": [
+    ".json"
+  ],
   "subMetas": {},
-  "userData": {}
+  "userData": {
+    "syncNodeName": "HUD"
+  }
 }

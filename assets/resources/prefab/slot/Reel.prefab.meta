@@ -1,9 +1,13 @@
 {
   "ver": "1.1.50",
   "importer": "prefab",
-  "imported": false,
-  "uuid": "56572ea8-a294-4ef2-ae66-07ddb9443433",
-  "files": [],
+  "imported": true,
+  "uuid": "de2a0d91-4d1d-43bd-83ef-57cec5223a37",
+  "files": [
+    ".json"
+  ],
   "subMetas": {},
-  "userData": {}
+  "userData": {
+    "syncNodeName": "Reel"
+  }
 }

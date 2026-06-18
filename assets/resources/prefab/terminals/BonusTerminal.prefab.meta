@@ -1,9 +1,13 @@
 {
   "ver": "1.1.50",
   "importer": "prefab",
-  "imported": false,
-  "uuid": "f6751bbb-3466-411a-882a-a2954946d9fa",
-  "files": [],
+  "imported": true,
+  "uuid": "0d72f388-4528-4fe9-89ca-f42e60ce8c39",
+  "files": [
+    ".json"
+  ],
   "subMetas": {},
-  "userData": {}
+  "userData": {
+    "syncNodeName": "BonusTerminal"
+  }
 }

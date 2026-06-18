@@ -1,9 +1,13 @@
 {
   "ver": "1.1.50",
   "importer": "prefab",
-  "imported": false,
-  "uuid": "9dbf9f1e-82af-4855-b69c-24e46ec4f391",
-  "files": [],
+  "imported": true,
+  "uuid": "66969189-f45b-40a2-9f35-25732c6068d0",
+  "files": [
+    ".json"
+  ],
   "subMetas": {},
-  "userData": {}
+  "userData": {
+    "syncNodeName": "Symbol"
+  }
 }
