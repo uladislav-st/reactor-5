@@ -1,7 +1,6 @@
 ﻿import { TerminalType } from '../../enums/TerminalType';
 import { EventNames } from '../../core/EventNames';
 import { GlobalEventEmitter } from '../../core/GlobalEventEmitter';
-import { TerminalViewModel } from '../viewmodels/TerminalViewModel';
 
 export class TerminalViewModel {
   readonly terminalType: TerminalType;
