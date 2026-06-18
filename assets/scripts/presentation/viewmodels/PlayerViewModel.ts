@@ -1,28 +1,61 @@
-﻿import { Vec3 } from 'cc';
+import { Rect, Vec3 } from 'cc';
 import { PlayerConstants } from '../../core/Constants';
 import { EventNames } from '../../core/EventNames';
 import { GlobalEventEmitter } from '../../core/GlobalEventEmitter';
-import { PlayerState } from '../../enums/PlayerState';
 import { PlayerModel } from '../../domain/models/PlayerModel';
+import { PlayerState } from '../../enums/PlayerState';
 import { IInteractable } from '../../interfaces/IInteractable';
-import { distance2D, isArrived, moveTowards2D } from '../../utils/MathUtils';
+import { isArrived, moveTowards2D } from '../../utils/MathUtils';
+
+export interface PlayerMovementSettings {
+  tapMoveSpeed: number;
+  keyboardMoveSpeed: number;
+  arrivalThreshold: number;
+  interactionCompleteDuration: number;
+}
 
 export class PlayerViewModel {
   readonly model: PlayerModel;
+  private movementSettings: PlayerMovementSettings = {
+    tapMoveSpeed: PlayerConstants.TAP_MOVE_SPEED,
+    keyboardMoveSpeed: PlayerConstants.KEYBOARD_MOVE_SPEED,
+    arrivalThreshold: PlayerConstants.ARRIVAL_THRESHOLD,
+    interactionCompleteDuration: PlayerConstants.INTERACTION_COMPLETE_DURATION,
+  };
+  private movementBounds: Rect | null = null;
 
   constructor(model: PlayerModel) {
     this.model = model;
   }
 
   setInitialPosition(position: Vec3): void {
-    this.model.position.set(position);
+    this.model.position.set(this.clampToMovementBounds(position));
+  }
+
+  setMovementBounds(bounds: Rect | null): void {
+    this.movementBounds = bounds;
+    this.model.position.set(this.clampToMovementBounds(this.model.position));
+
+    if (this.model.hasTarget) {
+      const target = new Vec3(this.model.targetPosition.x, this.model.position.y, this.model.position.z);
+      this.model.targetPosition.set(this.clampToMovementBounds(target));
+    }
+  }
+
+  setMovementSettings(settings: Partial<PlayerMovementSettings>): void {
+    this.movementSettings = {
+      ...this.movementSettings,
+      ...settings,
+    };
   }
 
   moveTo(worldPosition: Vec3, interactable: IInteractable | null = null): void {
-    const target = interactable
+    const rawTarget = interactable
       ? interactable.getInteractionPoint(this.model.position)
       : worldPosition.clone();
+    const target = this.clampToMovementBounds(new Vec3(rawTarget.x, this.model.position.y, this.model.position.z));
 
+    this.model.moveSpeed = this.movementSettings.tapMoveSpeed;
     this.model.targetPosition.set(target);
     this.model.hasTarget = true;
     this.model.pendingInteractable = interactable;
@@ -35,8 +68,14 @@ export class PlayerViewModel {
       return;
     }
 
-    const offset = direction.clone().multiplyScalar(PlayerConstants.KEYBOARD_MOVE_SPEED * deltaTime);
+    const offset = new Vec3(
+      direction.x * this.movementSettings.keyboardMoveSpeed * deltaTime,
+      0,
+      0,
+    );
     this.model.position.add(offset);
+    this.model.position.set(this.clampToMovementBounds(this.model.position));
+    this.model.moveSpeed = PlayerConstants.MOVE_SPEED;
     this.model.hasTarget = false;
     this.model.pendingInteractable = null;
 
@@ -76,9 +115,9 @@ export class PlayerViewModel {
       this.model.facingRight = dx > 0;
     }
 
-    this.model.position.set(nextPosition);
+    this.model.position.set(this.clampToMovementBounds(nextPosition));
 
-    if (!isArrived(this.model.position, this.model.targetPosition, PlayerConstants.ARRIVAL_THRESHOLD)) {
+    if (!isArrived(this.model.position, this.model.targetPosition, this.movementSettings.arrivalThreshold)) {
       return;
     }
 
@@ -104,7 +143,7 @@ export class PlayerViewModel {
 
   private startInteraction(interactable: IInteractable): void {
     this.setState(PlayerState.Interact);
-    this.model.interactionTimer = PlayerConstants.INTERACTION_COMPLETE_DURATION;
+    this.model.interactionTimer = this.movementSettings.interactionCompleteDuration;
     GlobalEventEmitter.emit(EventNames.PLAYER_INTERACTION_STARTED, { interactable });
     interactable.interact();
   }
@@ -126,5 +165,17 @@ export class PlayerViewModel {
 
     this.model.currentState = state;
     GlobalEventEmitter.emit(EventNames.PLAYER_STATE_CHANGED, { state });
+  }
+
+  private clampToMovementBounds(position: Vec3): Vec3 {
+    if (!this.movementBounds) {
+      return position.clone();
+    }
+
+    return new Vec3(
+      Math.min(Math.max(position.x, this.movementBounds.xMin), this.movementBounds.xMax),
+      position.y,
+      position.z,
+    );
   }
 }

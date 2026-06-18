@@ -5,9 +5,9 @@ import {
   EventTouch,
   Input,
   KeyCode,
-  Vec2,
   Vec3,
   input,
+  sys,
 } from 'cc';
 import { GameConfig } from '../core/GameConfig';
 import { TapInput } from '../core/Types';
@@ -16,15 +16,18 @@ export type TapListener = (tap: TapInput) => void;
 
 export class InputService {
   private camera: Camera | null = null;
+  private keyboardEnabled = false;
   private readonly tapListeners = new Set<TapListener>();
   private readonly pressedKeys = new Set<KeyCode>();
 
   init(camera: Camera): void {
     this.camera = camera;
+    this.keyboardEnabled = GameConfig.enableDesktopKeyboardMovement && !sys.isMobile;
+
     input.on(Input.EventType.TOUCH_END, this.onTouchEnd, this);
     input.on(Input.EventType.MOUSE_UP, this.onMouseUp, this);
 
-    if (GameConfig.enableKeyboardDebug) {
+    if (this.keyboardEnabled) {
       input.on(Input.EventType.KEY_DOWN, this.onKeyDown, this);
       input.on(Input.EventType.KEY_UP, this.onKeyUp, this);
     }
@@ -35,6 +38,7 @@ export class InputService {
     input.off(Input.EventType.MOUSE_UP, this.onMouseUp, this);
     input.off(Input.EventType.KEY_DOWN, this.onKeyDown, this);
     input.off(Input.EventType.KEY_UP, this.onKeyUp, this);
+    this.keyboardEnabled = false;
     this.tapListeners.clear();
     this.pressedKeys.clear();
   }
@@ -48,17 +52,11 @@ export class InputService {
   }
 
   getKeyboardDirection(): Vec3 | null {
-    if (!GameConfig.enableKeyboardDebug || this.pressedKeys.size === 0) {
+    if (!this.keyboardEnabled || this.pressedKeys.size === 0) {
       return null;
     }
 
     const direction = new Vec3();
-    if (this.pressedKeys.has(KeyCode.KEY_W) || this.pressedKeys.has(KeyCode.ARROW_UP)) {
-      direction.y += 1;
-    }
-    if (this.pressedKeys.has(KeyCode.KEY_S) || this.pressedKeys.has(KeyCode.ARROW_DOWN)) {
-      direction.y -= 1;
-    }
     if (this.pressedKeys.has(KeyCode.KEY_A) || this.pressedKeys.has(KeyCode.ARROW_LEFT)) {
       direction.x -= 1;
     }
@@ -70,7 +68,7 @@ export class InputService {
       return null;
     }
 
-    return direction.normalize();
+    return direction;
   }
 
   private onTouchEnd(event: EventTouch): void {

@@ -7,11 +7,15 @@ import { PlayerViewModel } from '../viewmodels/PlayerViewModel';
 export class PlayerController {
   private readonly interactables: IInteractable[] = [];
   private readonly onTap = (tap: { worldPosition: Vec3 }) => this.handleTap(tap.worldPosition);
+  private tapHitRadius: number;
 
   constructor(
     private readonly viewModel: PlayerViewModel,
     private readonly inputService: InputService,
-  ) {}
+    tapHitRadius = PlayerConstants.TAP_HIT_RADIUS,
+  ) {
+    this.tapHitRadius = tapHitRadius;
+  }
 
   start(): void {
     this.inputService.onTap(this.onTap);
@@ -34,6 +38,10 @@ export class PlayerController {
     }
   }
 
+  setTapHitRadius(value: number): void {
+    this.tapHitRadius = value;
+  }
+
   update(deltaTime: number): void {
     const keyboardDirection = this.inputService.getKeyboardDirection();
     if (keyboardDirection) {
@@ -47,12 +55,11 @@ export class PlayerController {
 
   private handleTap(worldPosition: Vec3): void {
     const interactable = this.findInteractableAt(worldPosition);
-    if (interactable) {
-      this.viewModel.moveTo(worldPosition, interactable);
+    if (!interactable) {
       return;
     }
 
-    this.viewModel.moveTo(worldPosition);
+    this.viewModel.moveTo(worldPosition, interactable);
   }
 
   private findInteractableAt(worldPosition: Vec3): IInteractable | null {
@@ -61,7 +68,7 @@ export class PlayerController {
         continue;
       }
 
-      if (interactable.isTappedAt(worldPosition, PlayerConstants.TAP_HIT_RADIUS)) {
+      if (interactable.isTappedAt(worldPosition, this.tapHitRadius)) {
         return interactable;
       }
     }

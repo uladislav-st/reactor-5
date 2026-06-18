@@ -17,18 +17,26 @@ export class Bootstrap extends Component {
   @property([TerminalView])
   terminals: TerminalView[] = [];
 
+  @property
+  enablePlayerMovement = true;
+
   private context: GameContext | null = null;
 
   onLoad(): void {
     const camera = this.camera ?? this.findCamera();
-    if (!camera) {
+    if (this.enablePlayerMovement && !camera) {
       console.error('[Bootstrap] Camera is not assigned.');
       return;
     }
 
     this.context = new GameContext();
     ServiceLocator.register('gameContext', this.context);
-    this.context.init(camera, this.terminals);
+
+    if (!this.enablePlayerMovement) {
+      return;
+    }
+
+    this.context.init(camera!, this.terminals);
 
     if (this.playerView) {
       this.playerView.bind(this.context.playerViewModel);

@@ -7,7 +7,7 @@ export class PlayerModel {
   readonly position = new Vec3();
   readonly targetPosition = new Vec3();
   currentState = PlayerState.Idle;
-  moveSpeed = PlayerConstants.MOVE_SPEED;
+  moveSpeed: number = PlayerConstants.MOVE_SPEED;
   facingRight = true;
   hasTarget = false;
   pendingInteractable: IInteractable | null = null;

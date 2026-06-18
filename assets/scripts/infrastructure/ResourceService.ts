@@ -29,7 +29,7 @@ export const ResourceKeys = {
     En: 'translation/en',
   },
   Image: {
-    MainBackground: 'img/background/main-bg',
+    MainBackground: 'img/background/reactor-user-bg',
   },
 } as const;
 

@@ -1,5 +1,6 @@
-﻿export const PlayerConstants = {
+export const PlayerConstants = {
   MOVE_SPEED: 250,
+  TAP_MOVE_SPEED: 520,
   ARRIVAL_THRESHOLD: 8,
   INTERACTION_COMPLETE_DURATION: 0.6,
   TAP_HIT_RADIUS: 60,

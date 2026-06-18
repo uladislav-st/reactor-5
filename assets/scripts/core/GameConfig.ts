@@ -1,3 +1,3 @@
 ﻿export const GameConfig = {
-  enableKeyboardDebug: true,
+  enableDesktopKeyboardMovement: true,
 } as const;

@@ -33,22 +33,11 @@ export class TerminalView extends Component implements IInteractable {
 
   getInteractionPoint(fromPosition: Vec3): Vec3 {
     const terminalPos = this.node.worldPosition;
-    const direction = new Vec3(
-      fromPosition.x - terminalPos.x,
-      fromPosition.y - terminalPos.y,
-      0,
-    );
-
-    if (direction.length() === 0) {
-      direction.set(0, -1, 0);
-    } else {
-      direction.normalize();
-    }
 
     return new Vec3(
-      terminalPos.x + direction.x * this.interactionRadius,
-      terminalPos.y + direction.y * this.interactionRadius,
-      terminalPos.z,
+      terminalPos.x,
+      fromPosition.y,
+      fromPosition.z,
     );
   }
 
