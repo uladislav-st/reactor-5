@@ -27,23 +27,32 @@ export class SlotView extends Component {
   @property(Mask)
   mask: Mask | null = null;
 
+  @property
+  spinDuration = 1.1;
+
+  @property
+  reelStopDelay = 0.18;
+
   private viewModel: SlotViewModel | null = null;
+  private spinning = false;
+  private stopping = false;
   private readonly onSlotStateChanged = (payload: unknown) => {
     const model = (payload as { model?: SlotModel }).model;
     if (!model) {
       return;
     }
 
-    this.renderGrid(model.grid);
-    this.setBlurred(model.currentState === SlotState.Spinning);
+    this.renderState(model);
   };
 
   onLoad(): void {
+    this.resolveReels();
     this.resolveMask();
   }
 
   bind(viewModel: SlotViewModel): void {
     this.viewModel = viewModel;
+    this.resolveReels();
     this.applySymbolLibrary();
     this.applyLayout();
     this.renderGrid(viewModel.model.grid);
@@ -61,6 +70,7 @@ export class SlotView extends Component {
   }
 
   renderGrid(grid: readonly (readonly number[])[]): void {
+    this.resolveReels();
     this.applySymbolLibrary();
     this.applyLayout();
 
@@ -96,6 +106,7 @@ export class SlotView extends Component {
   }
 
   protected onValidate(): void {
+    this.resolveReels();
     this.resolveMask();
     this.applySymbolLibrary();
     this.applyLayout();
@@ -105,6 +116,57 @@ export class SlotView extends Component {
     for (const reel of this.reels) {
       reel?.setBlurred(value);
     }
+  }
+
+  private renderState(model: SlotModel): void {
+    if (model.currentState === SlotState.Spinning) {
+      this.startSpin();
+      return;
+    }
+
+    if (this.spinning || this.stopping) {
+      void this.stopSpinSequence(model.grid);
+      return;
+    }
+
+    this.renderGrid(model.grid);
+    this.setBlurred(false);
+  }
+
+  private startSpin(): void {
+    this.resolveReels();
+    this.applySymbolLibrary();
+    this.spinning = true;
+
+    for (const reel of this.reels) {
+      reel?.startSpin();
+    }
+  }
+
+  private async stopSpinSequence(grid: readonly (readonly number[])[]): Promise<void> {
+    if (this.stopping) {
+      return;
+    }
+
+    this.resolveReels();
+    this.applySymbolLibrary();
+    this.stopping = true;
+
+    await this.delay(this.spinDuration);
+
+    for (let column = 0; column < SlotConstants.GRID_COLUMNS; column += 1) {
+      const reel = this.reels[column];
+      if (!reel) {
+        continue;
+      }
+
+      reel.stopSpin(this.getColumnValues(grid, column));
+      await this.delay(this.reelStopDelay);
+    }
+
+    this.spinning = false;
+    this.stopping = false;
+    GlobalEventEmitter.emit(EventNames.SLOT_REELS_STOPPED, { grid });
   }
 
   private renderEmptyGrid(): void {
@@ -138,5 +200,17 @@ export class SlotView extends Component {
     if (!this.mask && this.maskRoot) {
       this.mask = this.maskRoot.getComponent(Mask);
     }
+  }
+
+  private resolveReels(): void {
+    if (this.reels.filter(Boolean).length >= SlotConstants.GRID_COLUMNS) {
+      return;
+    }
+
+    this.reels = this.node.getComponentsInChildren(ReelView);
+  }
+
+  private delay(seconds: number): Promise<void> {
+    return new Promise((resolve) => setTimeout(resolve, Math.max(0, seconds) * 1000));
   }
 }

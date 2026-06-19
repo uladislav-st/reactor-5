@@ -1,4 +1,5 @@
-﻿import { BonusResponse } from '../dto/BonusResponse';
+import { BonusResponse } from '../dto/BonusResponse';
+import { InitGameResponse } from '../dto/InitGameResponse';
 import { SpinRequest } from '../dto/SpinRequest';
 import { SpinResponse } from '../dto/SpinResponse';
 import { IGameApi } from '../interfaces/IGameApi';
@@ -7,6 +8,14 @@ import { MockSpinGenerator } from './MockSpinGenerator';
 
 export class MockGameApi implements IGameApi {
   private balance = INITIAL_BALANCE;
+
+  async initGame(): Promise<InitGameResponse> {
+    return {
+      balance: this.balance,
+      bet: 50,
+      grid: MockSpinGenerator.generateGrid(),
+    };
+  }
 
   async spin(request: SpinRequest): Promise<SpinResponse> {
     const response = MockSpinGenerator.generate(request, this.balance, false);

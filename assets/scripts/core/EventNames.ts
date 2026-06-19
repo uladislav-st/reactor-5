@@ -7,6 +7,7 @@
   SPIN_REQUESTED: 'spin:requested',
   SPIN_STARTED: 'spin:started',
   SPIN_COMPLETED: 'spin:completed',
+  SLOT_REELS_STOPPED: 'slot:reels-stopped',
   BONUS_TRIGGERED: 'bonus:triggered',
   PLAYER_STATE_CHANGED: 'player:state-changed',
   PLAYER_MOVE_STARTED: 'player:move-started',

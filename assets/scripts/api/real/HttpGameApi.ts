@@ -1,9 +1,14 @@
-﻿import { BonusResponse } from '../dto/BonusResponse';
+import { BonusResponse } from '../dto/BonusResponse';
+import { InitGameResponse } from '../dto/InitGameResponse';
 import { SpinRequest } from '../dto/SpinRequest';
 import { SpinResponse } from '../dto/SpinResponse';
 import { IGameApi } from '../interfaces/IGameApi';
 
 export class HttpGameApi implements IGameApi {
+  async initGame(): Promise<InitGameResponse> {
+    throw new Error('HttpGameApi.initGame is not implemented yet');
+  }
+
   async spin(_request: SpinRequest): Promise<SpinResponse> {
     throw new Error('HttpGameApi.spin is not implemented yet');
   }

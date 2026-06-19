@@ -924,7 +924,7 @@
     "_enabled": true,
     "__prefab": null,
     "slotView": null,
-    "renderSampleGridOnInit": true,
+    "loadInitialGridOnInit": true,
     "_id": "a6VZ4g8ldNDbs5twZzI3Z0"
   },
   {
@@ -940,7 +940,6 @@
     "hudView": {
       "__id__": 31
     },
-    "spinResponseDelayMs": 350,
     "_id": "02xydxcktH5ZKO/DwM3ME6"
   },
   {
@@ -2969,7 +2968,7 @@
     "__type__": "SlotSymbolItem",
     "symbol": 2,
     "symbolViewPrefab": {
-      "__uuid__": "ae31fc34-f55a-480d-83b7-c6617dcaeb54",
+      "__uuid__": "06d99d67-67e9-4075-b442-3bce0013b8f1",
       "__expectedType__": "cc.Prefab"
     },
     "blurredSymbolViewPrefab": {
@@ -2986,7 +2985,7 @@
     "__type__": "SlotSymbolItem",
     "symbol": 3,
     "symbolViewPrefab": {
-      "__uuid__": "0564eb20-d98a-44e5-bc19-f9c9b9795994",
+      "__uuid__": "20204774-0d26-472f-b305-f5d6057ca76b",
       "__expectedType__": "cc.Prefab"
     },
     "blurredSymbolViewPrefab": {
@@ -3003,7 +3002,7 @@
     "__type__": "SlotSymbolItem",
     "symbol": 4,
     "symbolViewPrefab": {
-      "__uuid__": "dbbf9551-d82e-4f26-af95-2f8803133f17",
+      "__uuid__": "1a8a1523-083d-4d86-8c8e-f251b748736b",
       "__expectedType__": "cc.Prefab"
     },
     "blurredSymbolViewPrefab": {
@@ -3020,7 +3019,7 @@
     "__type__": "SlotSymbolItem",
     "symbol": 5,
     "symbolViewPrefab": {
-      "__uuid__": "4308e684-e268-40fa-bff0-491139ea9ec1",
+      "__uuid__": "895e67ea-e2ea-4a64-b11a-5095146486dd",
       "__expectedType__": "cc.Prefab"
     },
     "blurredSymbolViewPrefab": {
@@ -3037,7 +3036,7 @@
     "__type__": "SlotSymbolItem",
     "symbol": 6,
     "symbolViewPrefab": {
-      "__uuid__": "1f0a0f23-ea7b-4754-b3a6-a695cec9c4c4",
+      "__uuid__": "18589d2d-d540-4f05-a63c-5ae6e7a48ebf",
       "__expectedType__": "cc.Prefab"
     },
     "blurredSymbolViewPrefab": {
@@ -3054,7 +3053,7 @@
     "__type__": "SlotSymbolItem",
     "symbol": 7,
     "symbolViewPrefab": {
-      "__uuid__": "aa1a4646-8894-4957-b7a2-d2f56633c36f",
+      "__uuid__": "86c12056-8cde-4191-984b-db818c8ea5e9",
       "__expectedType__": "cc.Prefab"
     },
     "blurredSymbolViewPrefab": {
@@ -3071,7 +3070,7 @@
     "__type__": "SlotSymbolItem",
     "symbol": 8,
     "symbolViewPrefab": {
-      "__uuid__": "8f7e2369-7441-499b-b3d5-4d06ca652802",
+      "__uuid__": "b2240620-4f2c-44dc-940f-1127c6dfb8ec",
       "__expectedType__": "cc.Prefab"
     },
     "blurredSymbolViewPrefab": {
@@ -3088,7 +3087,7 @@
     "__type__": "SlotSymbolItem",
     "symbol": 9,
     "symbolViewPrefab": {
-      "__uuid__": "240ab93d-d507-441d-8735-32e5605ed66c",
+      "__uuid__": "296c9fd4-493d-4a67-a198-59c672c73b1a",
       "__expectedType__": "cc.Prefab"
     },
     "blurredSymbolViewPrefab": {
@@ -3105,7 +3104,7 @@
     "__type__": "SlotSymbolItem",
     "symbol": 10,
     "symbolViewPrefab": {
-      "__uuid__": "b522b584-33ea-4f4b-a3da-a902d3e59941",
+      "__uuid__": "5ae47445-8ebc-4a45-8b56-f8719d0f985a",
       "__expectedType__": "cc.Prefab"
     },
     "blurredSymbolViewPrefab": {
@@ -3122,7 +3121,7 @@
     "__type__": "SlotSymbolItem",
     "symbol": 11,
     "symbolViewPrefab": {
-      "__uuid__": "14bc5dad-ada4-4446-b776-b7c8e20e671b",
+      "__uuid__": "d3f99fb5-a6ef-45c8-8f71-2a55fe1aec16",
       "__expectedType__": "cc.Prefab"
     },
     "blurredSymbolViewPrefab": {
