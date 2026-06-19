@@ -6,3 +6,10 @@ export const PlayerConstants = {
   TAP_HIT_RADIUS: 60,
   KEYBOARD_MOVE_SPEED: 300,
 } as const;
+
+export const SlotConstants = {
+  GRID_COLUMNS: 5,
+  GRID_ROWS: 5,
+  REGULAR_SYMBOL_COUNT: 10,
+  SCATTER_SYMBOL: 11,
+} as const;

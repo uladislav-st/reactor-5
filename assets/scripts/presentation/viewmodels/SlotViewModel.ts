@@ -1,4 +1,5 @@
 import { SpinResponse } from '../../api/dto/SpinResponse';
+import { SlotConstants } from '../../core/Constants';
 import { EventNames } from '../../core/EventNames';
 import { GlobalEventEmitter } from '../../core/GlobalEventEmitter';
 import { SlotModel } from '../../domain/models/SlotModel';
@@ -35,7 +36,7 @@ export class SlotViewModel {
     this.model.bet = response.bet;
     this.model.balance = response.balance;
     this.model.win = response.win;
-    this.model.grid = response.grid;
+    this.model.grid = this.normalizeGrid(response.grid);
     this.model.wins = response.wins;
     this.model.isFreeSpin = response.isFreeSpin;
     this.model.isBonus = response.isBonus;
@@ -43,6 +44,11 @@ export class SlotViewModel {
     this.stateMachine.evaluate();
     this.emitStateChanged();
     GlobalEventEmitter.emit(EventNames.SPIN_COMPLETED, { response });
+  }
+
+  setGrid(grid: number[][]): void {
+    this.model.grid = this.normalizeGrid(grid);
+    this.emitStateChanged();
   }
 
   showWin(): void {
@@ -75,5 +81,22 @@ export class SlotViewModel {
       state: this.model.currentState,
       model: this.model,
     });
+  }
+
+  private normalizeGrid(grid: number[][]): number[][] {
+    const normalized: number[][] = [];
+
+    for (let row = 0; row < SlotConstants.GRID_ROWS; row += 1) {
+      const sourceRow = grid[row] ?? [];
+      const normalizedRow: number[] = [];
+
+      for (let column = 0; column < SlotConstants.GRID_COLUMNS; column += 1) {
+        normalizedRow.push(sourceRow[column] ?? 1);
+      }
+
+      normalized.push(normalizedRow);
+    }
+
+    return normalized;
   }
 }
