@@ -26,9 +26,7 @@ export class PlayerController {
   }
 
   registerInteractable(interactable: IInteractable): void {
-    if (!this.interactables.includes(interactable)) {
       this.interactables.push(interactable);
-    }
   }
 
   unregisterInteractable(interactable: IInteractable): void {

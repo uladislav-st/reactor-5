@@ -31,7 +31,7 @@ The objective is to create a more immersive slot experience while keeping the ga
 ```text
 assets/
 └── scripts/
-    ├── bootstrap/
+    ├── app/
     ├── core/
     │   ├── GlobalEventEmitter.ts
     │   └── GameContext.ts

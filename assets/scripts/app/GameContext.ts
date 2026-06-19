@@ -1,4 +1,3 @@
-﻿import { Camera } from 'cc';
 import { ApiFactory } from '../api/ApiFactory';
 import { IGameApi } from '../api/interfaces/IGameApi';
 import { PlayerModel } from '../domain/models/PlayerModel';
@@ -6,7 +5,6 @@ import { InputService } from '../infrastructure/InputService';
 import { ResourceService } from '../infrastructure/ResourceService';
 import { PlayerController } from '../presentation/controllers/PlayerController';
 import { PlayerViewModel } from '../presentation/viewmodels/PlayerViewModel';
-import { TerminalView } from '../presentation/views/TerminalView';
 
 export class GameContext {
   readonly api: IGameApi;
@@ -22,22 +20,13 @@ export class GameContext {
     this.playerController = new PlayerController(this.playerViewModel, this.inputService);
   }
 
-  init(camera: Camera, terminals: TerminalView[]): void {
-    this.inputService.init(camera);
-    this.playerController.start();
-
-    for (const terminal of terminals) {
-      this.playerController.registerInteractable(terminal);
-    }
+  update(deltaTime: number): void {
+    this.playerController.update(deltaTime);
   }
 
   dispose(): void {
     this.playerController.stop();
     this.inputService.dispose();
     this.resourceService.clear();
-  }
-
-  update(deltaTime: number): void {
-    this.playerController.update(deltaTime);
   }
 }
