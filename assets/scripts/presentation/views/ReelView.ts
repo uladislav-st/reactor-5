@@ -1,14 +1,14 @@
 import { _decorator, Component, Node, Vec3 } from 'cc';
 import { SlotConstants } from '../../core/Constants';
-import { BlurGameSymbol } from './BlurGameSymbol';
+import { GameSymbol } from './GameSymbol';
 import { SlotSymbolLibrary } from './SlotSymbolLibrary';
 
 const { ccclass, property } = _decorator;
 
 @ccclass('ReelView')
 export class ReelView extends Component {
-  @property([BlurGameSymbol])
-  symbols: BlurGameSymbol[] = [];
+  @property([GameSymbol])
+  symbols: GameSymbol[] = [];
 
   @property(Node)
   symbolStartFallPoint: Node | null = null;

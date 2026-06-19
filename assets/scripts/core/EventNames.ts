@@ -2,6 +2,7 @@
   TERMINAL_ACTIVATED: 'terminal:activated',
   GAME_STATE_CHANGED: 'game:state-changed',
   SLOT_STATE_CHANGED: 'slot:state-changed',
+  HUD_STATE_CHANGED: 'hud:state-changed',
   BONUS_STATE_CHANGED: 'bonus:state-changed',
   SPIN_REQUESTED: 'spin:requested',
   SPIN_STARTED: 'spin:started',

@@ -10,6 +10,7 @@ import { InputService } from '../infrastructure/InputService';
 import { ResourceService } from '../infrastructure/ResourceService';
 import { PlayerController } from '../presentation/controllers/PlayerController';
 import { BonusViewModel } from '../presentation/viewmodels/BonusViewModel';
+import { HUDViewModel } from '../presentation/viewmodels/HUDViewModel';
 import { PlayerViewModel } from '../presentation/viewmodels/PlayerViewModel';
 import { SlotViewModel } from '../presentation/viewmodels/SlotViewModel';
 
@@ -25,6 +26,7 @@ export class GameContext {
   readonly bonusModel = new BonusModel();
   readonly playerViewModel: PlayerViewModel;
   readonly slotViewModel: SlotViewModel;
+  readonly hudViewModel: HUDViewModel;
   readonly bonusViewModel: BonusViewModel;
   readonly playerController: PlayerController;
 
@@ -32,6 +34,7 @@ export class GameContext {
     this.api = ApiFactory.create();
     this.playerViewModel = new PlayerViewModel(this.playerModel);
     this.slotViewModel = new SlotViewModel(this.slotModel);
+    this.hudViewModel = new HUDViewModel(this.slotViewModel);
     this.bonusViewModel = new BonusViewModel(this.bonusModel);
     this.playerController = new PlayerController(this.playerViewModel, this.inputService);
 
